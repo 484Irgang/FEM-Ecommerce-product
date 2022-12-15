@@ -2,7 +2,35 @@
 	export default{
 		data() {
 			return {
-				count: 0
+				cartItems: [{id:0,
+							img: 'image-product-1-thumbnail.jpg',
+							desc: 'Fall Limited Edition Sneakers',
+							price: 125,
+							count: 1,
+							},
+							{id:1,
+							img: 'image-product-1-thumbnail.jpg',
+							desc: 'Fall Limited Edition Sneakers',
+							price: 125,
+							count: 1,
+							},
+							{id:2,
+							img: 'image-product-1-thumbnail.jpg',
+							desc: 'Fall Limited Edition Sneakers',
+							price: 125,
+							count: 1,
+							},
+							{id:3,
+							img: 'image-product-1-thumbnail.jpg',
+							desc: 'Fall Limited Edition Sneakers',
+							price: 125,
+							count: 1,
+							}],
+			}
+		},
+		methods: {
+			removeItem(idx){
+				this.cartItems = this.cartItems.filter((o,i) => i != idx)
 			}
 		}
 	}
@@ -14,35 +42,41 @@
 
 			<div class="box-nav">
 				<div class="logo"></div>
-				<ul>
-					<li><a href="#">Collections</a></li>
-					<li><a href="#">Men</a></li>
-					<li><a href="#">Women</a></li>
-					<li><a href="#">About</a></li>
-					<li><a href="#">Contact</a></li>
-				</ul>
+				<nav>
+					<ul>
+						<li><a href="#">Collections</a></li>
+						<li><a href="#">Men</a></li>
+						<li><a href="#">Women</a></li>
+						<li><a href="#">About</a></li>
+						<li><a href="#">Contact</a></li>
+					</ul>
+				</nav>
 			</div>
 
 			<div class="cart">
-				<div v-show="count > 0" class="count-items-cart">
-					<span v-if="count <= 99">{{count}}</span>
+				<div v-show="cartItems.length > 0" class="count-items-cart">
+					<span v-if="cartItems.length <= 99">{{cartItems.length}}</span>
 					<span v-else>+99</span>	
 				</div>
 			</div>
 			<div class="img-profile"></div>
 
-			<div class="box-cart">
+			<div v-show="cartItems.length > 0" class="box-cart">
 				<h3>Cart</h3>
-				<nav>
-					<div class="product-in-cart">
-						<div class="img-cart-product"></div>
+				<nav v-if="cartItems.length > 0">
+
+					<div  v-for="(item,index) in cartItems" :key="item.id" class="product-in-cart">
+						<img :src="'./src/assets/'+item.img"/>
 						<div class="desc-cart-product">
-							<p>Fall Limited Edition Sneakers Ffiofjdiosfjiosdflsdkfjsdifjsdiofsd</p>
-							<p>$125,00 x 3 <b>$375,000</b></p>
+							<p>{{item.desc}}</p>
+							<p>{{"$"+item.price+",00"}} x {{item.count}} <b>${{item.price * item.count}},00</b></p>
 						</div>
+						<button @click="removeItem(index)"></button>
 					</div>
+
 					<button>Checkout</button>
 				</nav>
+				<h3 v-else>Your cart is empty</h3>
 			</div>
 		</div><!-- CONTAINER -->
 	</header>
@@ -50,7 +84,7 @@
 
 <style scoped>
 	header{
-		padding: 30px 6% 0 2%;
+		padding: 30px 4% 0 1%;
 	}
 	.container{
 		position: relative;
@@ -121,58 +155,134 @@
 		font-weight: 700;
 	}
 	.img-profile{
-		width: 60px;
-		height: 60px;
+		width: 5%;
+		min-width: 40px;
+		padding-top: 5%;
+		min-height: 40px;
 		background-image: url("../assets/image-avatar.png");
 		background-size: 100% 100%;
 		background-position: center;
-		margin-left: 20px;
-		align-self: flex-start;
+		margin-left: 8px;
 		border-radius: 50%;
 		cursor: pointer;
+		transform: translateY(-50%);
 
 	}
 	.box-cart{
 		width: 100%;
 		max-width: 350px;
 		max-height: 300px;
-		background-color: red;
+		background-color: #ffffff;
 		position: absolute;
 		top: 80%;
 		right: 0;
 		border-radius: 12px;
-		box-shadow: 0 12px 25px rgba(0,0,0,0.5);
+		box-shadow: 0 12px 25px hsl(220, 14%, 75%);
 		overflow-y: auto;
 	}
-	.box-cart h3{
+	.box-cart h3:nth-of-type(1){
 		border-bottom: 1px solid hsl(24, 14%, 75%);
 		padding: 5%;
 	}
-	.box-cart nav{
-		padding: 5%;
+	.box-cart h3:nth-of-type(2){
+		width: 100%;
+		text-align: center;
+		padding: 80px 0;
+		color: hsl(219, 9%, 45%);
+		font-weight: 400;
+		font-size: 16px;
 	}
-	.box-cart nav button{
+	.box-cart nav{
+		padding: 2%;
+	}
+	.box-cart nav > button{
 		width: 100%;
 		padding: 14px;
 		border-radius: 12px;
 		border: none;
+		color: #ffffff;
+		font-weight: 700;
+		background-color: hsl(26, 100%, 55%);
+		cursor: pointer;
 	}
 	.product-in-cart{
 		display: flex;
 		width: 100%;
 		flex-wrap: wrap;
-		background-color: blue;
-		justify-content: space-around;
 		align-items: center;
 		margin-bottom: 8px;
+		justify-content: left;
+		cursor: pointer;
 	}
-	.img-cart-product{
-		width: 48px;
-		height: 48px;
-		background-color: green;
+	.product-in-cart img{
+		width: 56px;
+		height: 56px;
 		border-radius: 8px;
 	}
 	.desc-cart-product{
 		max-width: 250px;
+		margin-left: 12px;
+		color: hsl(219, 9%, 45%);
+		font-size: 14px;
+	}
+	.desc-cart-product b{
+		color: hsl(220, 13%, 13%);
+	}
+	.product-in-cart > button{
+		width: 24px;
+		height: 24px;
+		margin-left: auto;
+		border: none;
+		background-image: url("../assets/icon-delete.svg");
+		background-position: center;
+		background-repeat: no-repeat;
+		cursor: pointer;
+		background-color: transparent;
+		border-radius: 4px;
+	}
+	.product-in-cart > button:hover{
+		background-color: hsl(223, 64%, 98%);
+	}
+
+	@media screen and (max-width: 770px){
+		header{
+			padding: 0;
+		}
+		.container{
+			padding: 20px 2%;
+		}
+		.box-nav{
+			flex-direction: row-reverse;
+			align-items: center;
+		}
+		.box-nav nav{
+			width: 32px;
+			height: 32px;
+			background-color: red;
+		}
+		.box-nav ul{
+			position: absolute;
+			top: 0;
+			left: 0;
+			display: flex;
+			flex-direction: column;
+			flex-wrap: wrap;
+			margin-left: 0;
+			background-color: green;
+			width: 35vw;
+			height: 100vh;
+		}
+		.box-nav li{
+			padding: 16px 5%;
+			display: flex;
+			align-items: center;
+			color: black;
+		}
+		.box-nav li:hover{
+			border-bottom: 2px solid hsl(26, 100%, 55%);
+		}
+		.box-cart{
+			margin: 0 1.5%;
+		}
 	}
 </style>
