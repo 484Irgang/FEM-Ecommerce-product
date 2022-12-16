@@ -7,30 +7,17 @@
 							desc: 'Fall Limited Edition Sneakers',
 							price: 125,
 							count: 1,
-							},
-							{id:1,
-							img: 'image-product-1-thumbnail.jpg',
-							desc: 'Fall Limited Edition Sneakers',
-							price: 125,
-							count: 1,
-							},
-							{id:2,
-							img: 'image-product-1-thumbnail.jpg',
-							desc: 'Fall Limited Edition Sneakers',
-							price: 125,
-							count: 1,
-							},
-							{id:3,
-							img: 'image-product-1-thumbnail.jpg',
-							desc: 'Fall Limited Edition Sneakers',
-							price: 125,
-							count: 1,
-							}],
+							}]
 			}
 		},
 		methods: {
 			removeItem(idx){
 				this.cartItems = this.cartItems.filter((o,i) => i != idx)
+			},
+			abrirMenuMobile(e){
+				if(window.innerWidth < 770){
+					e.path[0].children[0].style.display = 'flex';
+				}
 			}
 		}
 	}
@@ -42,7 +29,7 @@
 
 			<div class="box-nav">
 				<div class="logo"></div>
-				<nav>
+				<nav @click="(e) => abrirMenuMobile(e)">
 					<ul>
 						<li><a href="#">Collections</a></li>
 						<li><a href="#">Men</a></li>
@@ -79,6 +66,7 @@
 				<h3 v-else>Your cart is empty</h3>
 			</div>
 		</div><!-- CONTAINER -->
+		<div class="back-menu-mobile"></div>
 	</header>
 </template>
 
@@ -179,6 +167,7 @@
 		border-radius: 12px;
 		box-shadow: 0 12px 25px hsl(220, 14%, 75%);
 		overflow-y: auto;
+		z-index: 1;
 	}
 	.box-cart h3:nth-of-type(1){
 		border-bottom: 1px solid hsl(24, 14%, 75%);
@@ -252,13 +241,18 @@
 			padding: 20px 2%;
 		}
 		.box-nav{
+			min-width: 180px;
 			flex-direction: row-reverse;
 			align-items: center;
+			justify-content: space-around;
 		}
 		.box-nav nav{
-			width: 32px;
-			height: 32px;
-			background-color: red;
+			width: 24px;
+			height: 24px;
+			background-image: url("../assets/icon-menu.svg");
+			background-position: center;
+			background-repeat: no-repeat;
+			cursor: pointer;
 		}
 		.box-nav ul{
 			position: absolute;
@@ -268,21 +262,52 @@
 			flex-direction: column;
 			flex-wrap: wrap;
 			margin-left: 0;
-			background-color: green;
+			background-color: #ffffff;
 			width: 35vw;
+			min-width: 250px;
 			height: 100vh;
+			padding-top: 50px;
+			z-index: 3;
+			display: none;
+		}
+		.box-nav ul::before{
+			content: '';
+			width: 24px;
+			height: 24px;
+			position: relative;
+			top: -32px;
+			left: 5%;
+			background-image: url("../assets/icon-close.svg");
+			background-position: center;
+			background-repeat: no-repeat;
+			cursor: pointer;
+		}
+		.back-menu-mobile{
+			z-index: 2;
+			width: 100%;
+			height: 100vh;
+			background-color: hsl(0,0%,0%,75%);
+			position: absolute;
+			top: 0;
+			left: 0;
+			display: none;
 		}
 		.box-nav li{
 			padding: 16px 5%;
 			display: flex;
 			align-items: center;
-			color: black;
 		}
 		.box-nav li:hover{
 			border-bottom: 2px solid hsl(26, 100%, 55%);
 		}
+		.box-nav a{
+			color: hsl(220, 13%, 13%);
+		}
 		.box-cart{
 			margin: 0 1.5%;
+		}
+		.img-profile{
+			transform: translateY(0);
 		}
 	}
 </style>
