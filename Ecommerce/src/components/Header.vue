@@ -7,17 +7,31 @@
 							desc: 'Fall Limited Edition Sneakers',
 							price: 125,
 							count: 1,
-							}]
+							}],
+				menuMobile: false,
+				displayCart: false
 			}
 		},
 		methods: {
 			removeItem(idx){
 				this.cartItems = this.cartItems.filter((o,i) => i != idx)
 			},
-			abrirMenuMobile(e){
+			toggleMenuMobile(e){
 				if(window.innerWidth < 770){
-					e.path[0].children[0].style.display = 'flex';
+					if(e.target.localName == "ul" || e.target.localName == "a" || e.target.localName == "li")
+						e.preventDefault();
+					else
+						this.menuMobile = !this.menuMobile;
 				}
+			}
+		},
+		watch: {
+			menuMobile(menuMobile){
+				document.querySelector(".box-nav ul").style.display = menuMobile ? 'flex' : 'none';
+				document.querySelector(".back-menu-mobile").style.display = menuMobile ? 'block' : 'none';
+			},
+			displayCart(newDisplay){
+				document.querySelector(".box-cart").style.display = newDisplay ? 'block' : 'none';
 			}
 		}
 	}
@@ -29,8 +43,9 @@
 
 			<div class="box-nav">
 				<div class="logo"></div>
-				<nav @click="(e) => abrirMenuMobile(e)">
+				<nav @click="(e) => toggleMenuMobile(e)">
 					<ul>
+						<span></span>
 						<li><a href="#">Collections</a></li>
 						<li><a href="#">Men</a></li>
 						<li><a href="#">Women</a></li>
@@ -40,15 +55,16 @@
 				</nav>
 			</div>
 
-			<div class="cart">
+			<div @click="() => displayCart = !displayCart " class="cart">
 				<div v-show="cartItems.length > 0" class="count-items-cart">
 					<span v-if="cartItems.length <= 99">{{cartItems.length}}</span>
 					<span v-else>+99</span>	
 				</div>
 			</div>
+
 			<div class="img-profile"></div>
 
-			<div v-show="cartItems.length > 0" class="box-cart">
+			<div class="box-cart">
 				<h3>Cart</h3>
 				<nav v-if="cartItems.length > 0">
 
@@ -72,7 +88,7 @@
 
 <style scoped>
 	header{
-		padding: 30px 4% 0 1%;
+		padding: 30px 1%;
 	}
 	.container{
 		position: relative;
@@ -101,6 +117,7 @@
 		padding: 18px 15px 60px 15px;
 		display: flex;
 		align-items: center;
+		border-bottom: 2px solid transparent;
 	}
 	.box-nav li:hover{
 		border-bottom: 2px solid hsl(26, 100%, 55%);
@@ -168,6 +185,7 @@
 		box-shadow: 0 12px 25px hsl(220, 14%, 75%);
 		overflow-y: auto;
 		z-index: 1;
+		display: none;
 	}
 	.box-cart h3:nth-of-type(1){
 		border-bottom: 1px solid hsl(24, 14%, 75%);
@@ -270,8 +288,7 @@
 			z-index: 3;
 			display: none;
 		}
-		.box-nav ul::before{
-			content: '';
+		.box-nav ul > span{
 			width: 24px;
 			height: 24px;
 			position: relative;
@@ -281,6 +298,7 @@
 			background-position: center;
 			background-repeat: no-repeat;
 			cursor: pointer;
+			z-index: 4;
 		}
 		.back-menu-mobile{
 			z-index: 2;

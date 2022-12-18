@@ -1,15 +1,21 @@
 <script>
   import Header from './components/Header.vue'
+  import ImageProduct from './components/ImageProduct.vue'
+  import DetailsProduct from './components/DetailsProduct.vue'
 
   export default{
     components: {
-      Header
+      Header,ImageProduct,DetailsProduct
     }
   }
 </script>
 
 <template>
   <Header/>
+  <article class="container">
+    <ImageProduct/>
+    <DetailsProduct/>
+  </article>
 </template>
 
 <style>
@@ -22,8 +28,17 @@
   }
   .container{
     width: 100%;
-    max-width: 120k0px;
-    padding: 0 2%;
+    max-width: 1200px;
     margin: auto;
+  }
+  article{
+    display: flex;
+  }
+
+  @media screen and (max-width: 768px){
+    article{
+      flex-direction: column;
+      align-items: center;
+    }
   }
 </style>
