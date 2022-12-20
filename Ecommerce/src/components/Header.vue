@@ -182,7 +182,7 @@
 		top: 80%;
 		right: 0;
 		border-radius: 12px;
-		box-shadow: 0 12px 25px hsl(220, 14%, 75%);
+		box-shadow: 0 12px 25px hsl(0, 0%, 0%, 15%);
 		overflow-y: auto;
 		z-index: 1;
 		display: none;
@@ -322,7 +322,7 @@
 			color: hsl(220, 13%, 13%);
 		}
 		.box-cart{
-			margin: 0 1.5%;
+			top: 100px;
 		}
 		.img-profile{
 			transform: translateY(0);
