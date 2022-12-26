@@ -161,17 +161,15 @@
 	}
 	.img-profile{
 		width: 5%;
-		min-width: 40px;
-		padding-top: 5%;
-		min-height: 40px;
+		aspect-ratio: 1;
+		min-width: 50px;
 		background-image: url("../assets/image-avatar.png");
 		background-size: 100% 100%;
 		background-position: center;
-		margin-left: 8px;
+		margin-left: 4%;
 		border-radius: 50%;
-		cursor: pointer;
 		transform: translateY(-50%);
-
+		cursor: pointer;
 	}
 	.box-cart{
 		width: 100%;
@@ -326,6 +324,7 @@
 		}
 		.img-profile{
 			transform: translateY(0);
+			min-width: 40px;
 		}
 	}
 </style>
